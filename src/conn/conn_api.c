@@ -1004,6 +1004,7 @@ __conn_is_new(WT_CONNECTION *wt_conn)
 static int
 __conn_close(WT_CONNECTION *wt_conn, const char *config)
 {
+    if(log_file_fp) DebugDestroy();
     WT_CONFIG_ITEM cval;
     WT_CONNECTION_IMPL *conn;
     WT_DECL_RET;

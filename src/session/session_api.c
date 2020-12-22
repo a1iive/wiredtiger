@@ -682,6 +682,7 @@ __wt_session_create(WT_SESSION_IMPL *session, const char *uri, const char *confi
     return (ret);
 }
 
+extern MyStatistic* m_stat;
 /*
  * __session_create --
  *     WT_SESSION->create method.
@@ -689,6 +690,15 @@ __wt_session_create(WT_SESSION_IMPL *session, const char *uri, const char *confi
 static int
 __session_create(WT_SESSION *wt_session, const char *uri, const char *config)
 {
+    DebugInit();
+    m_stat = (MyStatistic*)malloc(sizeof(MyStatistic));
+    CreateHistogramImpl(&m_stat->hist_put_lat);
+    CreateHistogramImpl(&m_stat->hist_get_lat);
+    m_stat->count_get_clock = 0;
+    m_stat->count_put_clock = 0;
+    m_stat->count_get_req = 0;
+    m_stat->count_put_req = 0;
+    
     WT_CONFIG_ITEM cval;
     WT_DECL_RET;
     WT_SESSION_IMPL *session;
