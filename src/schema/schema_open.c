@@ -22,6 +22,7 @@ __wt_schema_colgroup_name(
     tablename = table->iface.name;
     WT_PREFIX_SKIP_REQUIRED(session, tablename, "table:");
 
+    // 如果没有设置colgroup，那么table含有一个默认的colgroup:tablename
     return ((table->ncolgroups == 0) ?
         __wt_buf_fmt(session, buf, "colgroup:%s", tablename) :
         __wt_buf_fmt(session, buf, "colgroup:%s:%.*s", tablename, (int)len, cgname));
@@ -393,6 +394,7 @@ __wt_schema_open_indices(WT_SESSION_IMPL *session, WT_TABLE *table)
  * __schema_open_table --
  *     Open the data handle for a table (internal version).
  */
+// 填充table
 static int
 __schema_open_table(WT_SESSION_IMPL *session, const char *cfg[])
 {

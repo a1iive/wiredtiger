@@ -1209,6 +1209,7 @@ __evict_lru_walk(WT_SESSION_IMPL *session)
     }
 
     /* Trim empty entries from the end. */
+    // TODO: 为什么有空的entry？
     while (entries > 0 && queue->evict_queue[entries - 1].ref == NULL)
         --entries;
 

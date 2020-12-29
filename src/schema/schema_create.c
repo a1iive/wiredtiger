@@ -576,6 +576,7 @@ __create_table(WT_SESSION_IMPL *session, const char *uri, bool exclusive, const 
      * Open the table to check that it was setup correctly. Keep the handle exclusive until it is
      * released at the end of the call.
      */
+    // 在这里创建table（dhandle）并加入到conn的dhash
     WT_ERR(__wt_schema_get_table_uri(session, uri, true, WT_DHANDLE_EXCLUSIVE, &table));
     if (WT_META_TRACKING(session)) {
         WT_WITH_DHANDLE(session, &table->iface, ret = __wt_meta_track_handle_lock(session, true));

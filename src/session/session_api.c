@@ -2157,6 +2157,7 @@ __open_session(WT_CONNECTION_IMPL *conn, WT_EVENT_HANDLER *event_handler, const 
      * If we don't have them, allocate the cursor and dhandle hash arrays. Allocate the table hash
      * array as well.
      */
+    // 初始时都为空
     if (session_ret->cursor_cache == NULL)
         WT_ERR(__wt_calloc_def(session, WT_HASH_ARRAY_SIZE, &session_ret->cursor_cache));
     if (session_ret->dhhash == NULL)

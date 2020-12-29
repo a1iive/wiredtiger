@@ -12,6 +12,8 @@
         "ostream": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "optional": "c",
+        "system_error": "c"
     }
 }

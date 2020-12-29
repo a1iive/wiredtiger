@@ -127,6 +127,7 @@ __wt_conn_dhandle_alloc(WT_SESSION_IMPL *session, const char *uri, const char *c
     if ((ret = __wt_conn_dhandle_find(session, uri, checkpoint)) != WT_NOTFOUND)
         return (ret);
 
+    // file是btree，那table到底是什么结构？
     if (WT_PREFIX_MATCH(uri, "file:")) {
         WT_RET(__wt_calloc_one(session, &dhandle));
         dhandle->type = WT_DHANDLE_TYPE_BTREE;
@@ -461,7 +462,7 @@ __wt_conn_dhandle_open(WT_SESSION_IMPL *session, const char *cfg[], uint32_t fla
      * better to ignore them.
      */
     if (dhandle->checkpoint == NULL)
-        ++S2C(session)->open_btree_count;
+        ++S2C(session)->open_btree_count; // DONE
 
     if (0) {
 err:

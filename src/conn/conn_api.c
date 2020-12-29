@@ -2525,7 +2525,7 @@ wiredtiger_open(const char *home, WT_EVENT_HANDLER *event_handler, const char *c
     if (cval.val == -1) {
         conn->buffer_alignment = 0;
         if (conn->direct_io != 0)
-            conn->buffer_alignment = WT_BUFFER_ALIGNMENT_DEFAULT;
+            conn->buffer_alignment = WT_BUFFER_ALIGNMENT_DEFAULT; //TODO: 为什么不是4K
     } else
         conn->buffer_alignment = (size_t)cval.val;
 #ifndef HAVE_POSIX_MEMALIGN

@@ -681,7 +681,7 @@ __wt_ref_key(WT_PAGE *page, WT_REF *ref, void *keyp, size_t *sizep)
  *	31 bits		page offset of the key's bytes,
  *	 1 bits		flags
  */
-#define WT_IK_FLAG 0x01
+#define WT_IK_FLAG 0x01  //如果设置了，表示是on-page keys
 #define WT_IK_ENCODE_KEY_LEN(v) ((uintptr_t)(v) << 32)
 #define WT_IK_DECODE_KEY_LEN(v) ((v) >> 32)
 #define WT_IK_ENCODE_KEY_OFFSET(v) ((uintptr_t)(v) << 1)
