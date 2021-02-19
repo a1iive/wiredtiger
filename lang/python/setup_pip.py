@@ -132,7 +132,7 @@ def get_compile_flags(inc_paths, lib_paths):
         # Windows untested and incomplete, don't claim that it works.
         die('Windows is not supported by this setup script')
     else:
-        cflags = [ '-w', '-Wno-sign-conversion', '-std=c11' ]
+        cflags = [ '-w', '-Wno-sign-conversion', '-std=c11', '-DSTREAM_FILE' ]
         cppflags = ['-I' + path for path in inc_paths]
         cppflags.append('-DHAVE_CONFIG_H')
         ldflags = ['-L' + path for path in lib_paths]

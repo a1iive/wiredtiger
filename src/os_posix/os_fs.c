@@ -585,7 +585,7 @@ __posix_file_truncate(WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_of
  */
 static int
 __posix_file_write(
-  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf)
+  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf, uint32_t flags)
 {
     WT_FILE_HANDLE_POSIX *pfh;
     WT_SESSION_IMPL *session;
@@ -595,6 +595,10 @@ __posix_file_write(
 
     session = (WT_SESSION_IMPL *)wt_session;
     pfh = (WT_FILE_HANDLE_POSIX *)file_handle;
+
+#ifdef STREAM_FILE
+    if(LF_ISSET(WT_STREAM_SEQUENCE | WT_STREAM_RANDOM)) ("file write : stream = %d \n", flags);
+#endif
 
     __wt_verbose(session, WT_VERB_WRITE, "write: %s, fd=%d, offset=%" PRId64 ", len=%" WT_SIZET_FMT,
       file_handle->name, pfh->fd, offset, len);
@@ -624,13 +628,15 @@ __posix_file_write(
  */
 static int
 __posix_file_write_mmap(
-  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf)
+  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf, uint32_t flags)
 {
     static int remap_opportunities;
     WT_FILE_HANDLE_POSIX *pfh;
     WT_SESSION_IMPL *session;
     bool mmap_success;
 
+    WT_UNUSED(flags);
+    
     session = (WT_SESSION_IMPL *)wt_session;
     pfh = (WT_FILE_HANDLE_POSIX *)file_handle;
 
@@ -640,7 +646,7 @@ __posix_file_write_mmap(
       file_handle->name, pfh->fd, offset, len, (void *)pfh->mmap_buf, pfh->mmap_size);
 
     if (!pfh->mmap_file_mappable || pfh->mmap_resizing)
-        return (__posix_file_write(file_handle, wt_session, offset, len, buf));
+        return (__posix_file_write(file_handle, wt_session, offset, len, buf, flags));
 
     /* Indicate that we might be using the mapped area */
     (void)__wt_atomic_addv32(&pfh->mmap_usecount, 1);
@@ -663,7 +669,7 @@ __posix_file_write_mmap(
         return (0);
 
     /* We couldn't use mmap for some reason, so use the system call. */
-    WT_RET(__posix_file_write(file_handle, wt_session, offset, len, buf));
+    WT_RET(__posix_file_write(file_handle, wt_session, offset, len, buf, flags));
 
 /*
  * If we wrote the file via a system call, we might have extended its size. If the file is mapped,

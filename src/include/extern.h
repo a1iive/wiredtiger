@@ -2058,7 +2058,7 @@ static inline int __wt_vunpack_posint(const uint8_t **pp, size_t maxlen, uint64_
 static inline int __wt_vunpack_uint(const uint8_t **pp, size_t maxlen, uint64_t *xp)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 static inline int __wt_write(WT_SESSION_IMPL *session, WT_FH *fh, wt_off_t offset, size_t len,
-  const void *buf) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+  const void *buf, uint32_t flags) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 static inline size_t __wt_cell_pack_addr(WT_SESSION_IMPL *session, WT_CELL *cell, u_int cell_type,
   uint64_t recno, WT_TIME_AGGREGATE *ta, size_t size)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));

@@ -155,7 +155,7 @@ __wt_ftruncate(WT_SESSION_IMPL *session, WT_FH *fh, wt_off_t offset)
  *     POSIX pwrite.
  */
 static inline int
-__wt_write(WT_SESSION_IMPL *session, WT_FH *fh, wt_off_t offset, size_t len, const void *buf)
+__wt_write(WT_SESSION_IMPL *session, WT_FH *fh, wt_off_t offset, size_t len, const void *buf, uint32_t flags)
 {
     WT_DECL_RET;
     uint64_t time_start, time_stop;
@@ -177,7 +177,7 @@ __wt_write(WT_SESSION_IMPL *session, WT_FH *fh, wt_off_t offset, size_t len, con
     WT_STAT_CONN_INCR_ATOMIC(session, thread_write_active);
     time_start = __wt_clock(session);
 
-    ret = fh->handle->fh_write(fh->handle, (WT_SESSION *)session, offset, len, buf);
+    ret = fh->handle->fh_write(fh->handle, (WT_SESSION *)session, offset, len, buf, flags);
 
     time_stop = __wt_clock(session);
     __wt_stat_msecs_hist_incr_fswrite(session, WT_CLOCKDIFF_MS(time_stop, time_start));

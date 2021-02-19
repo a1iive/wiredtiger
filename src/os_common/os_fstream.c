@@ -37,7 +37,7 @@ static int
 __fstream_flush(WT_SESSION_IMPL *session, WT_FSTREAM *fstr)
 {
     if (fstr->buf.size > 0) {
-        WT_RET(__wt_write(session, fstr->fh, fstr->off, fstr->buf.size, fstr->buf.data));
+        WT_RET(__wt_write(session, fstr->fh, fstr->off, fstr->buf.size, fstr->buf.data, 0));
         fstr->off += (wt_off_t)fstr->buf.size;
         fstr->buf.size = 0;
     }

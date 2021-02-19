@@ -135,7 +135,7 @@ static int demo_file_read(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t, size_t, void
 static int demo_file_size(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t *);
 static int demo_file_sync(WT_FILE_HANDLE *, WT_SESSION *);
 static int demo_file_truncate(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t);
-static int demo_file_write(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t, size_t, const void *);
+static int demo_file_write(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t, size_t, const void *, uint32_t);
 
 /*
  * Forward function declarations for internal functions
@@ -739,7 +739,7 @@ demo_file_truncate(WT_FILE_HANDLE *file_handle, WT_SESSION *session, wt_off_t of
  */
 static int
 demo_file_write(
-  WT_FILE_HANDLE *file_handle, WT_SESSION *session, wt_off_t offset, size_t len, const void *buf)
+  WT_FILE_HANDLE *file_handle, WT_SESSION *session, wt_off_t offset, size_t len, const void *buf, uint32_t flags)
 {
     DEMO_FILE_HANDLE *demo_fh;
     DEMO_FILE_SYSTEM *demo_fs;
@@ -747,6 +747,8 @@ demo_file_write(
     size_t off;
     int ret = 0;
 
+    WT_UNUSED(flags);
+    
     demo_fh = (DEMO_FILE_HANDLE *)file_handle;
     demo_fs = demo_fh->demo_fs;
     wtext = demo_fs->wtext;

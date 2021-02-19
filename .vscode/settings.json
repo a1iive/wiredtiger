@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "typeinfo": "c",
+        "__locale": "c",
+        "atomic": "c",
+        "cstdlib": "c",
+        "filesystem": "c",
+        "locale": "c",
+        "ostream": "c",
+        "algorithm": "c",
+        "complex": "c",
+        "new": "c"
+    }
+}

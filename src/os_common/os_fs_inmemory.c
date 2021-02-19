@@ -391,7 +391,7 @@ __im_file_sync(WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session)
  */
 static int
 __im_file_write(
-  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf)
+  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf, uint32_t flags)
 {
     WT_DECL_RET;
     WT_FILE_HANDLE_INMEM *im_fh;
@@ -399,6 +399,8 @@ __im_file_write(
     WT_SESSION_IMPL *session;
     size_t off;
 
+    WT_UNUSED(flags);
+    
     im_fh = (WT_FILE_HANDLE_INMEM *)file_handle;
     im_fs = (WT_FILE_SYSTEM_INMEM *)file_handle->file_system;
     session = (WT_SESSION_IMPL *)wt_session;

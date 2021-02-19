@@ -497,9 +497,10 @@ __wt_log_slot_destroy(WT_SESSION_IMPL *session)
         if (!FLD_LOG_SLOT_ISSET((uint64_t)slot->slot_state, WT_LOG_SLOT_RESERVED)) {
             rel = WT_LOG_SLOT_RELEASED_BUFFERED(slot->slot_state);
             if (rel != 0)
+            /* TODO: no stream */
                 /* Writes are not throttled. */
                 WT_RET(__wt_write(session, slot->slot_fh, slot->slot_start_offset, (size_t)rel,
-                  slot->slot_buf.mem));
+                  slot->slot_buf.mem, 0));
         }
         __wt_buf_free(session, &log->slot_pool[i].slot_buf);
     }

@@ -130,6 +130,8 @@ struct __wt_file_handle_win {
 
 #else
 
+#define STREAM_FILE
+
 struct __wt_file_handle_posix {
     WT_FILE_HANDLE iface;
 
@@ -139,6 +141,10 @@ struct __wt_file_handle_posix {
     int fd; /* POSIX file handle */
 
     bool direct_io; /* O_DIRECT configured */
+
+#define WT_STREAM_SEQUENCE 0x1u
+#define WT_STREAM_RANDOM 0x2u
+#define WT_STREAM_NO 0
 
     /* The memory buffer and variables if we use mmap for I/O */
     uint8_t *mmap_buf;

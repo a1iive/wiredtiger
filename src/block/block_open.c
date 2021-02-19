@@ -293,7 +293,7 @@ __wt_desc_write(WT_SESSION_IMPL *session, WT_FH *fh, uint32_t allocsize)
 #ifdef WORDS_BIGENDIAN
     desc->checksum = __wt_bswap32(desc->checksum);
 #endif
-    ret = __wt_write(session, fh, (wt_off_t)0, (size_t)allocsize, desc);
+    ret = __wt_write(session, fh, (wt_off_t)0, (size_t)allocsize, desc, 0);
 
     __wt_scr_free(session, &buf);
     return (ret);

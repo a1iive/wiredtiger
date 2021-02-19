@@ -94,7 +94,7 @@ static int fail_file_read(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t, size_t, void
 static int fail_file_size(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t *);
 static int fail_file_sync(WT_FILE_HANDLE *, WT_SESSION *);
 static int fail_file_truncate(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t);
-static int fail_file_write(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t, size_t, const void *);
+static int fail_file_write(WT_FILE_HANDLE *, WT_SESSION *, wt_off_t, size_t, const void *, uint32_t flags);
 static bool fail_fs_arg(const char *, WT_CONFIG_ITEM *, WT_CONFIG_ITEM *, int64_t *);
 static int fail_fs_directory_list(
   WT_FILE_SYSTEM *, WT_SESSION *, const char *, const char *, char ***, uint32_t *);
@@ -314,7 +314,7 @@ fail_file_truncate(WT_FILE_HANDLE *file_handle, WT_SESSION *session, wt_off_t of
  */
 static int
 fail_file_write(
-  WT_FILE_HANDLE *file_handle, WT_SESSION *session, wt_off_t offset, size_t len, const void *buf)
+  WT_FILE_HANDLE *file_handle, WT_SESSION *session, wt_off_t offset, size_t len, const void *buf, uint32_t flags)
 {
     FAIL_FILE_HANDLE *fail_fh;
     FAIL_FILE_SYSTEM *fail_fs;
@@ -325,6 +325,8 @@ fail_file_write(
     ssize_t nr;
     const uint8_t *addr;
 
+    (void)(flags);
+    
     fail_fh = (FAIL_FILE_HANDLE *)file_handle;
     fail_fs = fail_fh->fail_fs;
     wtext = fail_fs->wtext;

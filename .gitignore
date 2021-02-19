@@ -151,3 +151,4 @@ _wiredtiger.pyd
 **/test/salvage/t
 **/test/syscall/test_wt2336_base
 **/test/thread/t
+node_modules

@@ -401,7 +401,7 @@ __win_file_set_end(WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t
  */
 static int
 __win_file_write(
-  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf)
+  WT_FILE_HANDLE *file_handle, WT_SESSION *wt_session, wt_off_t offset, size_t len, const void *buf, uint32_t flags)
 {
     DWORD chunk, nw, windows_error;
     OVERLAPPED overlapped = {0};
@@ -410,6 +410,8 @@ __win_file_write(
     WT_SESSION_IMPL *session;
     const uint8_t *addr;
 
+    WT_UNUSED(flags);
+    
     win_fh = (WT_FILE_HANDLE_WIN *)file_handle;
     session = (WT_SESSION_IMPL *)wt_session;
 

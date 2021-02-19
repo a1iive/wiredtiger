@@ -4826,9 +4826,10 @@ struct __wt_file_handle {
 	 * @param offset offset at which to start writing
 	 * @param length amount of data to write
 	 * @param buf content to be written to the file
+	 * @param flags muti-stream file's stream type
 	 */
 	int (*fh_write)(WT_FILE_HANDLE *file_handle, WT_SESSION *session,
-	    wt_off_t offset, size_t length, const void *buf);
+	    wt_off_t offset, size_t length, const void *buf, uint32_t flags);
 };
 #endif /* !defined(SWIG) */
 

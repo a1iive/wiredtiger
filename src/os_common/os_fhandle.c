@@ -525,7 +525,7 @@ __wt_file_zero(WT_SESSION_IMPL *session, WT_FH *fh, wt_off_t start_off, wt_off_t
         if ((uint64_t)size - off < bufsz)
             wrlen = (uint64_t)size - off;
         __wt_capacity_throttle(session, wrlen, type);
-        WT_ERR(__wt_write(session, fh, (wt_off_t)off, (size_t)wrlen, zerobuf->mem));
+        WT_ERR(__wt_write(session, fh, (wt_off_t)off, (size_t)wrlen, zerobuf->mem, 0));
         off += wrlen;
     }
 err:

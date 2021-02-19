@@ -218,6 +218,7 @@ __block_write_off(WT_SESSION_IMPL *session, WT_BLOCK *block, WT_ITEM *buf, wt_of
     uint32_t checksum;
     uint8_t *file_sizep;
     bool local_locked;
+    uint32_t flags;
 
     *offsetp = 0;   /* -Werror=maybe-uninitialized */
     *sizep = 0;     /* -Werror=maybe-uninitialized */
@@ -268,8 +269,16 @@ __block_write_off(WT_SESSION_IMPL *session, WT_BLOCK *block, WT_ITEM *buf, wt_of
         local_locked = true;
     }
     ret = __wt_block_alloc(session, block, &offset, (wt_off_t)align_size);
+#ifdef STREAM_FILE
+    if (ret == 0 || ret == 110) {
+        if(ret) LF_SET(WT_STREAM_SEQUENCE);
+        else LF_SET(WT_STREAM_RANDOM);
+        ret = __wt_block_extend(session, block, fh, offset, align_size, &local_locked);
+    }
+#else
     if (ret == 0)
         ret = __wt_block_extend(session, block, fh, offset, align_size, &local_locked);
+#endif
     if (local_locked)
         __wt_spin_unlock(session, &block->live_lock);
     WT_RET(ret);
@@ -322,7 +331,7 @@ __block_write_off(WT_SESSION_IMPL *session, WT_BLOCK *block, WT_ITEM *buf, wt_of
 #endif
 
     /* Write the block. */
-    if ((ret = __wt_write(session, fh, offset, align_size, buf->mem)) != 0) {
+    if ((ret = __wt_write(session, fh, offset, align_size, buf->mem, flags)) != 0) {
         if (!caller_locked)
             __wt_spin_lock(session, &block->live_lock);
         WT_TRET(__wt_block_off_free(session, block, offset, (wt_off_t)align_size));

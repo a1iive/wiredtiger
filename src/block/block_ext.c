@@ -521,7 +521,11 @@ __wt_block_alloc(WT_SESSION_IMPL *session, WT_BLOCK *block, wt_off_t *offp, wt_o
 append:
             WT_RET(__block_extend(session, block, offp, size));
             WT_RET(__block_append(session, block, &block->live.alloc, *offp, (wt_off_t)size));
+#ifdef  STREAM_FILE
+            return (110);  /* It is a seq stream . errno max = 106 */
+#else
             return (0);
+#endif
         }
 
         /* Take the first record. */

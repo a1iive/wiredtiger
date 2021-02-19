@@ -60,7 +60,7 @@ struct __wt_extlist {
     WT_EXT *last; /* Cached last element */
 
     WT_EXT *off[WT_SKIP_MAXDEPTH]; /* Size/offset skiplists */
-    WT_SIZE *sz[WT_SKIP_MAXDEPTH];
+    WT_SIZE *sz[WT_SKIP_MAXDEPTH]; /* size order: small->huge */
 };
 
 /*

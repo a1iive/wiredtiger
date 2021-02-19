@@ -1683,7 +1683,7 @@ __conn_single(WT_SESSION_IMPL *session, const char *cfg[])
         WT_ERR(__wt_filesize(session, conn->lock_fh, &size));
         if ((size_t)size != strlen(WT_SINGLETHREAD_STRING))
             WT_ERR(__wt_write(session, conn->lock_fh, (wt_off_t)0, strlen(WT_SINGLETHREAD_STRING),
-              WT_SINGLETHREAD_STRING));
+              WT_SINGLETHREAD_STRING, 0));
     }
 
     /* We own the lock file, optionally create the WiredTiger file. */
@@ -1734,7 +1734,7 @@ __conn_single(WT_SESSION_IMPL *session, const char *cfg[])
               " read only connection");
         WT_ERR(__wt_snprintf_len_set(
           buf, sizeof(buf), &len, "%s\n%s\n", WT_WIREDTIGER, WIREDTIGER_VERSION_STRING));
-        WT_ERR(__wt_write(session, fh, (wt_off_t)0, len, buf));
+        WT_ERR(__wt_write(session, fh, (wt_off_t)0, len, buf, 0));
         WT_ERR(__wt_fsync(session, fh, true));
     } else {
         /*
